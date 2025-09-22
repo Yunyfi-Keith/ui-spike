@@ -1,17 +1,17 @@
 import type {Readable, Unsubscriber} from 'svelte/store';
 import {Store} from './store/store';
 
-type BindStoreToPropParameters = { store: Store<any, any>; stateProp: string, actionsProp: string  };
+type ConnectParameters = { store: Store<any, any>; stateProp: string, actionsProp: string  };
 
 // A Svelte action that binds a store to a property of a custom element.
 // Usage: <counter-element use:bindStoreToProp={{ store: appStore, prop: 'state' }} />
 // See https://svelte.dev/docs/svelte/svelte-action
-export function bindStoreToHtmlElement<T>(
+export function connect<T>(
     htmlElement: HTMLElement,
-    initialParams: BindStoreToPropParameters
+    initialParams: ConnectParameters
 ) {
     let unsubscribe: Unsubscriber | null = null;
-    let params: BindStoreToPropParameters = initialParams;
+    let params: ConnectParameters = initialParams;
 
     const setupBinding = () => {
         console.log('bindStoreToProp:setup');
@@ -34,7 +34,7 @@ export function bindStoreToHtmlElement<T>(
     setupBinding();
 
     return {
-        update(newParams: BindStoreToPropParameters) {
+        update(newParams: ConnectParameters) {
             console.log('bindStoreToProp:update');
             cleanupBinding();
             params = newParams;

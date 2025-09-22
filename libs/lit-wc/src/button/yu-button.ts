@@ -1,15 +1,22 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../eventFactory';
-import {YuPage} from '../page/yu-page';
+import {ComponentConfiguration} from '../componentConfiguration';
 
 export const YuButtonClickEvent: YuEvent<void> = createYuEvent('YuButton_ClickEvent');
+
+export interface YuButtonConfiguration extends ComponentConfiguration {
+    text: string;
+}
 
 @customElement('yu-button')
 class YuButton extends LitElement {
 
     @property({attribute: true})
     accessor text: string = null;
+
+    @property({ type: Object, attribute: false })
+    accessor configuration: YuButtonConfiguration;
 
     static styles =
         css`

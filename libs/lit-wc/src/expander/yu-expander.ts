@@ -1,13 +1,21 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property, state} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../eventFactory';
+import {ComponentConfiguration} from '../componentConfiguration';
 
 export const YuExpanderExpandToggled: YuEvent<{ isOpen: boolean }> = createYuEvent('YuExpander_ExpandToggled');
+
+export interface YuExpanderConfiguration extends ComponentConfiguration {
+    isExpanded: boolean;
+}
 
 @customElement('yu-expander')
 class YuExpander extends LitElement {
     @property({attribute: true})
     accessor headerText: string = null;
+
+    @property({ type: Object, attribute: false })
+    accessor configuration: YuExpanderConfiguration;
 
     @state()
     private _open = true;

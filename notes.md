@@ -69,7 +69,7 @@ export class YuTextInput extends LitElement {
 # 2 Connecting to the store
 
 * Wrapper component: `<yu-store-connector />`
-* Binding function: `use:bindStoreToHtmlElement="{{ store: appStore, stateProp: 'state', actionsProp: 'actions' }}"`
+* Binding function: `use:connect="{{ store: appStore, stateProp: 'state', actionsProp: 'actions' }}"`
 
 The granularity of the binding could be at a higher point, or it could be at each web components level.
 
@@ -125,4 +125,8 @@ Once the store has changed, how do we propagate the changes down the DOM?
    * parent push props - would need to use svelte so the props get set correctly.
 2) mutiple nodes subscribe - granularity likely at the web component level
    * nodes select their own piece of state
-   * it would use the same connector binding as options 1, just at many more levels. 
+   * it would use the same connector binding as options 1, just at many more levels.
+
+# Drag and drop
+
+TODO
