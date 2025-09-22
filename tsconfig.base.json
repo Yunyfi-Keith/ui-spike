@@ -1,0 +1,23 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declaration": true,
+    "sourceMap": true,
+    "composite": true,
+    "moduleResolution": "bundler",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "types": ["svelte"],
+    "paths": {
+      "lit-wc": ["packages/lit-wc/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

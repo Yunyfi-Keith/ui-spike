@@ -1,0 +1,21 @@
+{
+  "name": "@yunyfi/lit-wc",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/lib.js"
+    },
+    "./*": {
+      "source": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build && tsc --emitDeclarationOnly"
+  },
+  "dependencies": {
+    "lit": "^3.3.1"
+  }
+}
