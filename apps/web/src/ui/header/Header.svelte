@@ -56,6 +56,13 @@
             >{mode}</button>
         {/each}
     </div>
+<!--
+NOTE: Svelte takes $userProfileStore and subscribes to the store (vis userProfileStore.subscribe()
+Given this, the Svelte compiler types the `$` accessed stores as the TState type.
+e.g.:
+* without `$` the type is `userProfileStore.state.userName`
+* with `$` the type is `$userProfileStore.userName`
+-->
     {$userProfileStore.userName}
     <button
             class="wide"

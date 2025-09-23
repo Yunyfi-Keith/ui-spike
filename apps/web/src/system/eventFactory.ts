@@ -35,8 +35,13 @@ export const createYuEvent = <TDetail>(eventAction: string) => {
 
 export const isCustomEventOfYuEventDetail = <TDetail = any>(e: Event): e is CustomEvent<YuEventDetail<TDetail>> => {
     if (!(e instanceof CustomEvent)) return false;
-    const details = e.detail as Partial<YuEventDetail<TDetail>> | undefined;
-    const hasEventAction = typeof details.eventAction === 'string';
-    const hasComponentId = typeof details.componentId === 'string';
-    return hasEventAction && hasComponentId;
+    const details = e.detail as Partial<YuEventDetail<TDetail>>;
+    return typeof details.eventAction === 'string' && typeof details.componentId === 'string';
+}
+
+export const isYuEvent = <TDetail = any>(e: any): e is YuEvent<TDetail> => {
+    if (typeof e !== 'object') return false;
+    if (e === null) return false;
+    const yuEventPartial = e as Partial<YuEvent<TDetail>>;
+    return typeof yuEventPartial.eventAction === 'string' && typeof yuEventPartial.createInstance === 'function';
 }

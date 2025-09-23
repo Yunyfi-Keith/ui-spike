@@ -14,7 +14,7 @@
                     <yu-text-input-designer id="last-name">
                         <yu-text-input label="Last Name"></yu-text-input>
                     </yu-text-input-designer>
-                    <yu-counter state={surfaceDesignStore.state.counterState}></yu-counter>
+                    <yu-counter state={$surfaceDesignStore.counterState}></yu-counter>
                     <br/>
                     <yu-button text="Submit"></yu-button>
                 </div>

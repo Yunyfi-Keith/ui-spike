@@ -39,12 +39,18 @@ export class YuCounter extends LitElement {
         return html`
             <div class="row">
                 <p>${this.state.label}</p>
-                <button @click=${this.onIncrement}>-</button>
+                <button @click=${this.onDecrement}>-</button>
                 <strong>${this.state.count}</strong>
-                <button @click=${this.onDecrement}>+</button>
+                <button @click=${this.onIncrement}>+</button>
             </div>
         `;
     }
+
+    private onDecrement = () => {
+        this.dispatchEvent(
+            DecrementEvent.createInstance(this.id, {by: 1})
+        );
+    };
 
     private onIncrement = () => {
         this.dispatchEvent(
@@ -52,11 +58,6 @@ export class YuCounter extends LitElement {
         );
     };
 
-    private onDecrement = () => {
-        this.dispatchEvent(
-            DecrementEvent.createInstance(this.id, {by: 1})
-        );
-    };
 
 }
 

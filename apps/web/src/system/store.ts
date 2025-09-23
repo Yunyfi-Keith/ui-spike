@@ -1,5 +1,5 @@
 import {atom as immerAtom, PreinitializedWritableAtom} from '@illuxiza/nanostores-immer'
-import {isCustomEventOfYuEventDetail, YuEventDetail} from './eventFactory';
+import {isCustomEventOfYuEventDetail, isYuEvent, YuEvent, YuEventDetail} from './eventFactory';
 
 export interface Store<TState> {
     state: TState;
@@ -23,7 +23,7 @@ type EventHandler<TState> = {
 
 export class StoreBuilder<TState> {
     #initialState: TState;
-    #handlers: EventHandler<TState>[] = [];
+    #eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>> = new Map();
 
     public static create<TState>() {
         return new StoreBuilder<TState>();
@@ -34,13 +34,19 @@ export class StoreBuilder<TState> {
         return this;
     }
 
-    withEventHandler<TEventData>(eventAction: string, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this {
-        this.#handlers.push({eventAction, handler});
+    withEventHandler<TEventData>(eventAction: string, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this;
+    withEventHandler<TEventData>(yuEvent: YuEvent<TEventData>, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this;
+    withEventHandler(...args: any[]): this {
+        if (isYuEvent(args[0])) {
+            this.#eventHandlerByEventAction.set(args[0].eventAction, args[1]);
+        } else {
+            this.#eventHandlerByEventAction.set(args[0], args[1]);
+        }
         return this;
     }
 
     build(): DefaultStore<TState> {
-        return new DefaultStore<TState>(this.#initialState, this.#handlers);
+        return new DefaultStore<TState>(this.#initialState, this.#eventHandlerByEventAction);
     }
 }
 
@@ -48,12 +54,9 @@ export class DefaultStore<TState> implements Store<TState> {
     #atomStore: PreinitializedWritableAtom<TState> & object; // typings as per the nanostores library
     #eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>> = new Map();
 
-    constructor(initialState: TState, eventHandlers: EventHandler<TState>[]) {
+    constructor(initialState: TState, eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>>) {
         this.#atomStore = immerAtom<TState>(initialState);
-        this.#eventHandlerByEventAction = eventHandlers.reduce((map, eventHandler) => {
-            map.set(eventHandler.eventAction, eventHandler.handler);
-            return map;
-        }, new Map());
+        this.#eventHandlerByEventAction = eventHandlerByEventAction;
     }
 
     dispatch(event: CustomEvent<YuEventDetail<any>>): void;

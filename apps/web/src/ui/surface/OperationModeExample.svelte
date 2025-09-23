@@ -9,7 +9,7 @@
                 <div slot="children">
                     <yu-text-input label="First Name"></yu-text-input>
                     <yu-text-input label="Last Name"></yu-text-input>
-                    <yu-counter state={surfaceOperationStore.state.counterState}></yu-counter>
+                    <yu-counter state={$surfaceOperationStore.counterState}></yu-counter>
                     <br/>
                     <yu-button text="Submit"></yu-button>
                 </div>
