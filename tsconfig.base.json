@@ -15,9 +15,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "types": ["svelte"],
-    "paths": {
-      "lit-wc": ["packages/lit-wc/src/index.ts"]
-    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,5 +1,5 @@
 import {atom as immerAtom, PreinitializedWritableAtom} from '@illuxiza/nanostores-immer'
-import {YuEventDetail, isCustomEventOfYuEventDetail} from '@yunyfi/lit-wc';
+import {isCustomEventOfYuEventDetail, YuEventDetail} from './eventFactory';
 
 export interface Store<TState> {
     state: TState;

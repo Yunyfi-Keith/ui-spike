@@ -1,8 +1,8 @@
 <script lang="ts">
-    import {appStore} from './store/app-store/appStore';
+    import {appStore} from './stores/app-store/appStore';
 
     // Importing the library side effect registers the web component
-    import '@yunyfi/lit-wc';
+    import './web-components';
 
     import Header from './ui//header/Header.svelte';
     import ConfigPanel from './ui/config-panel/ConfigPanel.svelte';

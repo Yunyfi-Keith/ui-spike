@@ -1,6 +1,4 @@
-import type {Readable, Unsubscriber} from 'svelte/store';
-import {Store} from './store/store';
-import {isCustomEventOfYuEventDetail, YuEventTypeChannel, YuEventDetail} from '@yunyfi/lit-wc';
+import {isCustomEventOfYuEventDetail, YuEventTypeChannel, Store} from './system';
 
 type ConnectParameters = { store: Store<any>; stateProp: string };
 
@@ -11,7 +9,7 @@ export function connect<T>(
     htmlElement: HTMLElement,
     initialParams: ConnectParameters
 ) {
-    let unsubscribe: Unsubscriber | null = null;
+    let unsubscribe: () => void | null = null;
     let params: ConnectParameters = initialParams;
 
     const setupBinding = () => {

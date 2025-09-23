@@ -1,7 +1,6 @@
-import {Store, StoreBuilder} from '../store';
+import {Store, StoreBuilder, YuEventDetail} from '../../system';
 import {createDefaultSurfaceState, SurfaceState} from './surfaceState';
 import {SurfaceDisplayMode} from './surfaceDisplayMode';
-import {YuEventDetail} from '@yunyfi/lit-wc/dist/src';
 
 export type AppState = {
     surfaceState: SurfaceState;

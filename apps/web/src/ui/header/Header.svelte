@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {appStore, SurfaceDisplayMode} from '../../store/app-store';
+    import {appStore, SurfaceDisplayMode} from '../../stores/app-store';
 </script>
 
 <style>

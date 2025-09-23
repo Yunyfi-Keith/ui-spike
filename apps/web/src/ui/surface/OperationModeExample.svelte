@@ -1,5 +1,5 @@
 <script>
-    import {appStore} from '../../store/app-store/appStore';
+    import {appStore} from '../../stores/app-store/appStore';
     import {connect} from '../../connect';
 
     let operationModeState = appStore.state.surfaceState.operationModeState;

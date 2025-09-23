@@ -3,8 +3,7 @@
     import OperationModeExample from './OperationModeExample.svelte';
     import DesignModeExample from './DesignModeExample.svelte';
     let zoom = 100;
-    import {appStore} from '../../store/app-store/appStore';
-    import { SurfaceDisplayMode } from '../../store/app-store/surfaceDisplayMode';
+    import {appStore, SurfaceDisplayMode} from '../../stores/app-store';
 </script>
 
 <style>

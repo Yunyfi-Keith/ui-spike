@@ -1,6 +1,6 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
-import {createYuEvent, YuEvent} from '../eventFactory';
+import {createYuEvent, YuEvent} from '../../system/eventFactory';
 import {ComponentConfiguration} from '../componentConfiguration';
 
 export const YuTextInputTextChangedEvent: YuEvent<void> = createYuEvent('YuTextInput_ClickEvent');

@@ -1,6 +1,6 @@
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {createYuEvent, YuEvent} from '../eventFactory';
+import {createYuEvent, YuEvent} from '../../system/eventFactory';
 import {ComponentConfiguration} from '../componentConfiguration';
 
 export interface CounterState {

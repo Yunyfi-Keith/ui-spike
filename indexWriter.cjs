@@ -158,4 +158,3 @@ const writeAllIndexFiles = (packagesDirectory) => {
 };
 
 writeAllIndexFiles(path.join(__dirname, 'apps'));
-writeAllIndexFiles(path.join(__dirname, 'libs'));

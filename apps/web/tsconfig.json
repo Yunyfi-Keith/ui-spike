@@ -3,10 +3,5 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "outDir": "dist",
-  },
-  "references": [
-    {
-      "path": "../../libs/lit-wc"
-    }
-  ]
+  }
 }

@@ -1,6 +1,6 @@
 import {LitElement, css, html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
-import {createYuEvent, YuEvent} from '../eventFactory';
+import {createYuEvent, YuEvent} from '../../system/eventFactory';
 import {ComponentConfiguration} from '../componentConfiguration';
 
 export const YuButtonClickEvent: YuEvent<void> = createYuEvent('YuButton_ClickEvent');
@@ -10,7 +10,7 @@ export interface YuButtonConfiguration extends ComponentConfiguration {
 }
 
 @customElement('yu-button')
-class YuButton extends LitElement {
+export class YuButton extends LitElement {
 
     @property({attribute: true})
     accessor text: string = null;

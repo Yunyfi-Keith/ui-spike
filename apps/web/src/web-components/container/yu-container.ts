@@ -2,7 +2,7 @@ import {LitElement, css, html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
 
 @customElement('yu-container')
-class YuContainer extends LitElement {
+export class YuContainer extends LitElement {
     static styles = css`
         div {
             border: 1px solid #d5d5d5;
