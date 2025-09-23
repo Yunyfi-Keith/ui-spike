@@ -1,18 +1,16 @@
-# Whiteboarding discussion
+# Whiteboarding discussion notes
 
-White board notes:
+# ✅ Store granularity
 
-# Store granularity
+This will be 'less' (stores) the better:
 
-This will be 'less' is better:
-
-* 1 store for the app
-* 1 store for surface design mode
-* 1 store for page runtime
+* ✅ 1 store for the app
+* ✅ 1 store for surface design mode
+* ✅ 1 store for page runtime
 
 **the above looks OK for the spike**
 
-# Store model
+# ☑️ Store model
 
 This needs to be fleshed out.
 
@@ -38,7 +36,7 @@ App Store
 
 **the above looks OK for the spike**
 
-## Where does config live?
+## ☑️ Where does config live?
 
 If we have `<yu-foo />`, and it has config for how it works at runtime, where does that config live?
 
@@ -66,7 +64,7 @@ export class YuTextInput extends LitElement {
 
 **For now let's model the config as a property on the component**
 
-# 2 Connecting to the store
+# ✅ Connecting to the store 
 
 * Wrapper component: `<yu-store-connector />`
 * Binding function: `use:connect="{{ store: appStore, stateProp: 'state', actionsProp: 'actions' }}"`
@@ -78,15 +76,15 @@ The granularity of the binding could be at a higher point, or it could be at eac
 
 **Let's try a binding function as we ideally don't want something in the DOM.**
 
-# Getting events to the store (Whiteboard point 1)
+# ✅ Getting events to the store (Whiteboard point 1)
 
-* Bubbling - with CustomEvent<>
-* Action - inject actions as you inject state, then call those actions
-* Lit context - basically the same as bubbling but less standard.
+* ✅ Bubbling - with CustomEvent<>
+* ❌ Action - inject actions as you inject state, then call those actions
+* ❌ Lit context - basically the same as bubbling but less standard.
 
 **For now let's stick with bubbling.** 
 
-# Mutating the store
+# ✅ Mutating the store
 
 * what is the mutation contract: 
   * handler mutates store and returns new store:
@@ -113,11 +111,11 @@ yu-connectore -> store manager -> process events -> mutate -> dispatch updates -
 ```
 
 **Let's put in some basic functionality in the store to**
-1) dispatch events to actions based on confif
-2) use immer to mutate the store
-3) put the handlers near the store code
+1) ✅ dispatch events to actions based on confif
+2) ✅ use immer to mutate the store
+3) ✅ put the handlers near the store code
 
-# Propagating Updates
+# ☑️ Propagating Updates
 
 Once the store has changed, how do we propagate the changes down the DOM?
 
@@ -127,6 +125,9 @@ Once the store has changed, how do we propagate the changes down the DOM?
    * nodes select their own piece of state
    * it would use the same connector binding as options 1, just at many more levels.
 
-# Drag and drop
+☑️ Currently this is workinv using sveltes `$` which works in declarative templates. 
+Once the config parts are done and dynamic templates added this can be revisited. 
+
+# ☑️ Drag and drop
 
 TODO
