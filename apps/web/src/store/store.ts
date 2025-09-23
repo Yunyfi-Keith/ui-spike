@@ -1,8 +1,8 @@
 import {atom as immerAtom, PreinitializedWritableAtom} from '@illuxiza/nanostores-immer'
 import {YuEventDetail, isCustomEventOfYuEventDetail} from '@yunyfi/lit-wc';
 
-export interface Store<TData> {
-    data: TData;
+export interface Store<TState> {
+    state: TState;
 
     dispatch(customEvent: CustomEvent<YuEventDetail<any>>): void;
 
@@ -10,45 +10,48 @@ export interface Store<TData> {
 
     dispatch(...args: any[]): void;
 
-    subscribe: (subscriber: (value: TData) => void) => () => void;
+    subscribe: (subscriber: (state: TState) => void) => () => void;
 }
 
-type EventHandler<TData> = {
+export type StoreEventHandler<TState, TEventData> = (state: TState, eventData: TEventData) => void;
+
+
+type EventHandler<TState> = {
     eventAction: string,
-    handler: (data: TData, eventData: any) => void
+    handler: StoreEventHandler<TState, any>
 };
 
-export class StoreBuilder<TData> {
-    #initialData: TData;
-    #handlers: EventHandler<TData>[];
+export class StoreBuilder<TState> {
+    #initialState: TState;
+    #handlers: EventHandler<TState>[] = [];
 
-    public static create<TData>() {
-        return new StoreBuilder<TData>();
+    public static create<TState>() {
+        return new StoreBuilder<TState>();
     }
 
-    withInitialData(initialStore: TData): this {
-        this.#initialData = initialStore;
+    withInitialData(initialState: TState): this {
+        this.#initialState = initialState;
         return this;
     }
 
-    withEventHandler<TEventData>(eventAction: string, handler: (data: TData, eventData: TEventData) => void): this {
+    withEventHandler<TEventData>(eventAction: string, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this {
         this.#handlers.push({eventAction, handler});
         return this;
     }
 
-    build(): DefaultStore<TData> {
-        return new DefaultStore<TData>(this.#initialData, this.#handlers);
+    build(): DefaultStore<TState> {
+        return new DefaultStore<TState>(this.#initialState, this.#handlers);
     }
 }
 
-export class DefaultStore<TData> implements Store<TData> {
-    #atomStore: PreinitializedWritableAtom<TData> & object;
-    #handlerByEventAction: Map<string, (data: TData) => void>;
+export class DefaultStore<TState> implements Store<TState> {
+    #atomStore: PreinitializedWritableAtom<TState> & object; // typings as per the nanostores library
+    #eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>> = new Map();
 
-    constructor(initialData: TData, eventHandlers: EventHandler<TData>[]) {
-        this.#atomStore = immerAtom<TData>(initialData);
-        this.#handlerByEventAction = eventHandlers.reduce((map, currentItem) => {
-            map.set(currentItem.eventAction, currentItem.handler); // Use currentItem.id as the key
+    constructor(initialState: TState, eventHandlers: EventHandler<TState>[]) {
+        this.#atomStore = immerAtom<TState>(initialState);
+        this.#eventHandlerByEventAction = eventHandlers.reduce((map, eventHandler) => {
+            map.set(eventHandler.eventAction, eventHandler.handler);
             return map;
         }, new Map());
     }
@@ -62,25 +65,25 @@ export class DefaultStore<TData> implements Store<TData> {
         } else {
             yuEventDetail = args[0];
         }
-        let handler = this.#handlerByEventAction.get(yuEventDetail.eventAction);
+        let handler = this.#eventHandlerByEventAction.get(yuEventDetail.eventAction);
         if (!handler) {
             let errorMessage = `Unknown event action ${yuEventDetail.eventAction}`;
             console.error(errorMessage);
             throw new Error(errorMessage)
         }
         if (handler) {
-            // handles mutation and publishing of changes
+            // `mut` handles mutation and nanostores handles publishing of changes
             this.#atomStore.mut(draft => {
-                handler(draft)
+                handler(draft, yuEventDetail)
             })
         }
     };
 
-    subscribe = (subscriber: (value: TData) => void) => {
+    subscribe = (subscriber: (state: TState) => void) => {
         return this.#atomStore.subscribe(subscriber);
     };
 
-    get data() {
+    get state() {
         return this.#atomStore.get()
     }
 }

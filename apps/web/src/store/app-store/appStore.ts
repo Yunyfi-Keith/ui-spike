@@ -1,23 +1,22 @@
 import {Store, StoreBuilder} from '../store';
 import {createDefaultSurfaceState, SurfaceState} from './surfaceState';
 import {SurfaceDisplayMode} from './surfaceDisplayMode';
+import {YuEventDetail} from '@yunyfi/lit-wc/dist/src';
 
-export type AppStore = {
+export type AppState = {
     surfaceState: SurfaceState;
 };
 
-export type AppStoreActions = {
-    setDisplayMode(displayMode: SurfaceDisplayMode): void;
-};
+export type DisplayModelChangedEventDetails = { mode: SurfaceDisplayMode };
 
-export const appStore: Store<AppStore> = StoreBuilder.create<AppStore>()
+export const appStore: Store<AppState> = StoreBuilder.create<AppState>()
     .withInitialData(
         {
             surfaceState: createDefaultSurfaceState()
         })
-    .withEventHandler<{ mode: SurfaceDisplayMode }>(
+    .withEventHandler<DisplayModelChangedEventDetails>(
         'set-display-mode',
-        (data, yuEventDetail) => {
-            data.surfaceState.displayMode = yuEventDetail.mode;
+        (appState, yuEventDetail: YuEventDetail<DisplayModelChangedEventDetails>) => {
+            appState.surfaceState.displayMode = yuEventDetail.detail.mode;
         })
     .build();

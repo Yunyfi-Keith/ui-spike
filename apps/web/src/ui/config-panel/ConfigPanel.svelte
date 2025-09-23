@@ -23,7 +23,7 @@
         display: grid;
         gap: 8px;
     }
-    label {
+    .label {
         font-size: 0.8rem;
         color: #555;
     }
@@ -42,7 +42,7 @@
         <div class="section-header">Selection</div>
         <div class="section-body">
             <div>
-                <label>Selected element</label>
+                <div class="label">Selected element</div>
                 <div>{selectedName ?? 'Nothing selected'}</div>
             </div>
         </div>
@@ -52,15 +52,15 @@
         <div class="section-header">Layout</div>
         <div class="section-body">
             <div>
-                <label>Width</label>
+                <div class="label">Width</div>
                 <input type="text" placeholder="auto" />
             </div>
             <div>
-                <label>Height</label>
+                <div class="label">Height</div>
                 <input type="text" placeholder="auto" />
             </div>
             <div>
-                <label>Padding</label>
+                <div class="label">Padding</div>
                 <input type="text" placeholder="16px" />
             </div>
         </div>

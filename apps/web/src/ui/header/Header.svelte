@@ -1,7 +1,5 @@
 <script lang="ts">
-    export let title: string = 'Page Header';
-    import {appStore} from '../../store/app-store/appStore';
-    import {SurfaceDisplayMode} from '../../store/app-store/surfaceDisplayMode';
+    import {appStore, SurfaceDisplayMode} from '../../store/app-store';
 </script>
 
 <style>
@@ -42,12 +40,12 @@
 </style>
 
 <div class="header">
-    <div class="title">{title}</div>
+    <div class="title">Page Header</div>
     <div class="spacer"></div>
     <div class="actions">
         {#each [SurfaceDisplayMode.Operation, SurfaceDisplayMode.Design, SurfaceDisplayMode.Preview] as mode}
             <button
-                    on:click={() => appStore.dispatch({eventAction: 'set-display-mode', detail: { mode } })}
+                    on:click={() => appStore.dispatch({eventAction: 'set-display-mode', detail: { mode }})}
                     disabled={$appStore.surfaceState.displayMode === mode}
             >{mode}</button>
         {/each}
