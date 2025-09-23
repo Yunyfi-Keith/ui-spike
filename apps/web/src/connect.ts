@@ -1,10 +1,7 @@
-import {isCustomEventOfYuEventDetail, YuEventTypeChannel, Store} from './system';
+import {isCustomEventOfYuEventDetail, YuCustomEventChannel, Store} from './system';
 
-type ConnectParameters = { store: Store<any>; stateProp: string };
+export type ConnectParameters = { store: Store<any>; stateProp: string };
 
-// A Svelte action that binds a store to a property of a custom element.
-// Usage: <counter-element use:bindStoreToProp={{ store: appStore, prop: 'state' }} />
-// See https://svelte.dev/docs/svelte/svelte-action
 export function connect<T>(
     htmlElement: HTMLElement,
     initialParams: ConnectParameters
@@ -14,7 +11,7 @@ export function connect<T>(
 
     const setupBinding = () => {
         console.log('bindStoreToProp:setup');
-        htmlElement.addEventListener(YuEventTypeChannel, onYuEvent as EventListener, {capture: true});
+        htmlElement.addEventListener(YuCustomEventChannel, onYuEvent as EventListener, {capture: true});
         let genericElement = htmlElement as any;
         if (genericElement[params.stateProp] === undefined) {
             console.warn('connect:setup, no prop found to bind updates to');
@@ -28,7 +25,7 @@ export function connect<T>(
 
     const cleanupBinding = () => {
         console.log('bindStoreToProp:cleanup');
-        htmlElement.removeEventListener(YuEventTypeChannel, onYuEvent as EventListener, {capture: true});
+        htmlElement.removeEventListener(YuCustomEventChannel, onYuEvent as EventListener, {capture: true});
         if (unsubscribe) {
             unsubscribe();
             unsubscribe = null;
@@ -37,7 +34,9 @@ export function connect<T>(
 
     const onYuEvent = (e: Event) => {
         if (!isCustomEventOfYuEventDetail(e)) {
-            throw new Error(`Expected event on well known channel ${YuEventTypeChannel}`);
+            let errorMessage = `Unexpected event on well known channel ${YuCustomEventChannel}`;
+            console.error(errorMessage, e);
+            throw new Error(errorMessage);
         }
         e.stopPropagation();
         console.log(`Event ${e.detail.eventAction} intercepted for component ID ${e.detail.componentId} `)

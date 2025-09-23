@@ -3,7 +3,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../../system/eventFactory';
 import {ComponentConfiguration} from '../componentConfiguration';
 
-export const YuTextInputTextChangedEvent: YuEvent<void> = createYuEvent('YuTextInput_ClickEvent');
+export const YuTextInputTextChangedEvent: YuEvent<void> = createYuEvent('YuTextInputTextChangedEvent');
 
 export interface YuTextInputConfiguration extends ComponentConfiguration {
     label: string;
@@ -40,7 +40,7 @@ export class YuTextInput extends LitElement {
 
     private onClick = () => {
         this.dispatchEvent(
-            YuTextInputTextChangedEvent.createInstance(this.id)
+            YuTextInputTextChangedEvent.createAsCustomEvent(null, this.id)
         );
     };
 }

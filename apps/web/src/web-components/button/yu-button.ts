@@ -3,7 +3,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../../system/eventFactory';
 import {ComponentConfiguration} from '../componentConfiguration';
 
-export const YuButtonClickEvent: YuEvent<void> = createYuEvent('YuButton_ClickEvent');
+export const YuButtonClickEvent: YuEvent<void> = createYuEvent('YuButtonClickEvent');
 
 export interface YuButtonConfiguration extends ComponentConfiguration {
     text: string;
@@ -34,7 +34,7 @@ export class YuButton extends LitElement {
 
     private onClick = () => {
         this.dispatchEvent(
-            YuButtonClickEvent.createInstance(this.id)
+            YuButtonClickEvent.createAsCustomEvent(null, this.id)
         );
     };
 }

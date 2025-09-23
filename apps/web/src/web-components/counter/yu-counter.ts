@@ -8,8 +8,8 @@ export interface CounterState {
     count: number;
 }
 
-export const IncrementEvent: YuEvent<{ by: number }> = createYuEvent('YuCounter_Increment');
-export const DecrementEvent: YuEvent<{ by: number }> = createYuEvent('YuCounter_Decrement');
+export const YuCounterIncrementEvent: YuEvent<{ by: number }> = createYuEvent('YuCounterIncrementEvent');
+export const YuCounterDecrementEvent: YuEvent<{ by: number }> = createYuEvent('YuCounterDecrementEvent');
 
 export interface YuCounterConfiguration extends ComponentConfiguration {
     label: string;
@@ -48,13 +48,13 @@ export class YuCounter extends LitElement {
 
     private onDecrement = () => {
         this.dispatchEvent(
-            DecrementEvent.createInstance(this.id, {by: 1})
+            YuCounterDecrementEvent.createAsCustomEvent({by: 1}, this.id)
         );
     };
 
     private onIncrement = () => {
         this.dispatchEvent(
-            IncrementEvent.createInstance(this.id, {by: 1})
+            YuCounterIncrementEvent.createAsCustomEvent({by: 1}, this.id)
         );
     };
 

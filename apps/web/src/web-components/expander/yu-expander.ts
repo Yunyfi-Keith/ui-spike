@@ -3,7 +3,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../../system';
 import {ComponentConfiguration} from '../componentConfiguration';
 
-export const YuExpanderExpandToggled: YuEvent<{ isOpen: boolean }> = createYuEvent('YuExpander_ExpandToggled');
+export const YuExpanderToggledEvent: YuEvent<{ isOpen: boolean }> = createYuEvent('YuExpanderToggledEvent');
 
 export interface YuExpanderConfiguration extends ComponentConfiguration {
     isExpanded: boolean;
@@ -45,7 +45,7 @@ export class YuExpander extends LitElement {
         this._open = !this._open;
         this.requestUpdate();
         this.dispatchEvent(
-            YuExpanderExpandToggled.createInstance(this.id, {isOpen: this._open})
+            YuExpanderToggledEvent.createAsCustomEvent({isOpen: this._open}, this.id)
         );
     }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
     import {appStore, SurfaceDisplayMode} from '../../stores/app-store';
-    import {userProfileStore} from '../../stores/user-profile-store';
+    import {userProfileStore, YuToggleStatusEvent} from '../../stores/user-profile-store';
 </script>
 
 <style>
@@ -51,7 +51,7 @@
     <div class="actions">
         {#each [SurfaceDisplayMode.Operation, SurfaceDisplayMode.Design, SurfaceDisplayMode.Preview] as mode}
             <button
-                    on:click={() => appStore.dispatch({eventAction: 'set-display-mode', detail: { mode }})}
+                    on:click={() => appStore.dispatch({eventAction: 'set-display-mode', data: { mode }})}
                     disabled={$appStore.displayMode === mode}
             >{mode}</button>
         {/each}
@@ -66,6 +66,6 @@ e.g.:
     {$userProfileStore.userName}
     <button
             class="wide"
-            on:click={() => userProfileStore.dispatch({eventAction: 'update-mood', detail: {}})}
-    >Status: {$userProfileStore.selectedMode}</button>
+            on:click={() => userProfileStore.dispatch(YuToggleStatusEvent.create())}
+    >Status: {$userProfileStore.selectedStatus}</button>
 </div>

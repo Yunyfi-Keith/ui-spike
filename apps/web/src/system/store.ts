@@ -1,12 +1,12 @@
 import {atom as immerAtom, PreinitializedWritableAtom} from '@illuxiza/nanostores-immer'
-import {isCustomEventOfYuEventDetail, isYuEvent, YuEvent, YuEventDetail} from './eventFactory';
+import {isCustomEventOfYuEventDetail, isYuEvent, YuEvent, YuEventInstance} from './eventFactory';
 
 export interface Store<TState> {
     state: TState;
 
-    dispatch(customEvent: CustomEvent<YuEventDetail<any>>): void;
+    dispatch(customEvent: CustomEvent<YuEventInstance<any>>): void;
 
-    dispatch(yuEventDetail: YuEventDetail<any>): void;
+    dispatch(yuEventDetail: YuEventInstance<any>): void;
 
     dispatch(...args: any[]): void;
 
@@ -14,7 +14,6 @@ export interface Store<TState> {
 }
 
 export type StoreEventHandler<TState, TEventData> = (state: TState, eventData: TEventData) => void;
-
 
 type EventHandler<TState> = {
     eventAction: string,
@@ -34,8 +33,8 @@ export class StoreBuilder<TState> {
         return this;
     }
 
-    withEventHandler<TEventData>(eventAction: string, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this;
-    withEventHandler<TEventData>(yuEvent: YuEvent<TEventData>, handler: StoreEventHandler<TState, YuEventDetail<TEventData>>): this;
+    withEventHandler<TEventData>(eventAction: string, handler: StoreEventHandler<TState, YuEventInstance<TEventData>>): this;
+    withEventHandler<TEventData>(yuEvent: YuEvent<TEventData>, handler: StoreEventHandler<TState, YuEventInstance<TEventData>>): this;
     withEventHandler(...args: any[]): this {
         if (isYuEvent(args[0])) {
             this.#eventHandlerByEventAction.set(args[0].eventAction, args[1]);
@@ -59,10 +58,10 @@ export class DefaultStore<TState> implements Store<TState> {
         this.#eventHandlerByEventAction = eventHandlerByEventAction;
     }
 
-    dispatch(event: CustomEvent<YuEventDetail<any>>): void;
-    dispatch(yuEventDetail: YuEventDetail<any>): void;
+    dispatch(event: CustomEvent<YuEventInstance<any>>): void;
+    dispatch(yuEventDetail: YuEventInstance<any>): void;
     dispatch(...args: any[]) {
-        let yuEventDetail: YuEventDetail<any>;
+        let yuEventDetail: YuEventInstance<any>;
         if (isCustomEventOfYuEventDetail(args[0])) {
             yuEventDetail = args[0].detail;
         } else {

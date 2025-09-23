@@ -1,20 +1,22 @@
-import {Store, StoreBuilder, YuEventDetail} from '../../system';
+import {createYuEvent, Store, StoreBuilder, YuEvent, YuEventInstance} from '../../system';
 
 export type UserProfileState = {
     userName: string;
-    moods: string[];
-    selectedMode: string;
+    status: string[];
+    selectedStatus: string;
 };
+
+export const YuToggleStatusEvent: YuEvent<void> = createYuEvent('YuToggleStatusEvent');
 
 export const userProfileStore: Store<UserProfileState> = StoreBuilder.create<UserProfileState>()
     .withInitialState(
         {
             userName: "Bob Jane",
-            moods: ['happy', 'very happy', 'extremely happy', 'sad', 'very sad', 'extremely sad'],
-            selectedMode: 'click me'
+            status: ['happy', 'very happy', 'extremely happy', 'sad', 'very sad', 'extremely sad'],
+            selectedStatus: 'click to set'
         }
     )
-    .withEventHandler('update-mood', (userProfileState, yuEventDetail: YuEventDetail<void>) => {
-        userProfileState.selectedMode = userProfileState.moods[Date.now() % userProfileState.moods.length]
+    .withEventHandler(YuToggleStatusEvent, (userProfileState, yuEventDetail: YuEventInstance<void>) => {
+        userProfileState.selectedStatus = userProfileState.status[Date.now() % userProfileState.status.length]
     })
     .build();
