@@ -63,13 +63,13 @@
     <div class="canvas">
         <div class="page" style="transform: scale({zoom/100}); transform-origin: top center;">
             <div class="surface">
-                {#if $appStore.surfaceState.displayMode === SurfaceDisplayMode.Operation}
+                {#if $appStore.displayMode === SurfaceDisplayMode.Operation}
                     <OperationModeExample />
                 {/if}
-                {#if $appStore.surfaceState.displayMode === SurfaceDisplayMode.Design}
+                {#if $appStore.displayMode === SurfaceDisplayMode.Design}
                     <DesignModeExample />
                 {/if}
-                {#if $appStore.surfaceState.displayMode === SurfaceDisplayMode.Preview}
+                {#if $appStore.displayMode === SurfaceDisplayMode.Preview}
                     <p>TODO</p>
                 {/if}
             </div>

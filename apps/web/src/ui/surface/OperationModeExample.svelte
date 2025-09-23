@@ -1,18 +1,15 @@
 <script>
-    import {appStore} from '../../stores/app-store/appStore';
     import {connect} from '../../connect';
-
-    let operationModeState = appStore.state.surfaceState.operationModeState;
-
+    import {surfaceOperationStore} from '../../stores/surface-operation-store';
 </script>
 <div id="operation-mode-example">
-    <yu-page title="Contact Us" use:connect="{{ store: appStore, stateProp: 'state', actionsProp: 'actions' }}">
+    <yu-page title="Contact Us" use:connect="{{ store: surfaceOperationStore, stateProp: 'state', actionsProp: 'actions' }}">
         <div slot="children">
             <yu-container>
                 <div slot="children">
                     <yu-text-input label="First Name"></yu-text-input>
                     <yu-text-input label="Last Name"></yu-text-input>
-                    <yu-counter state={operationModeState.counterState}></yu-counter>
+                    <yu-counter state={surfaceOperationStore.state.counterState}></yu-counter>
                     <br/>
                     <yu-button text="Submit"></yu-button>
                 </div>

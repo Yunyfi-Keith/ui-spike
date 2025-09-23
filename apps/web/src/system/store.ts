@@ -29,7 +29,7 @@ export class StoreBuilder<TState> {
         return new StoreBuilder<TState>();
     }
 
-    withInitialData(initialState: TState): this {
+    withInitialState(initialState: TState): this {
         this.#initialState = initialState;
         return this;
     }

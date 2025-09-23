@@ -1,5 +1,6 @@
 <script lang="ts">
     import {appStore, SurfaceDisplayMode} from '../../stores/app-store';
+    import {userProfileStore} from '../../stores/user-profile-store';
 </script>
 
 <style>
@@ -37,6 +38,11 @@
     button:hover {
         background: #eef1f8;
     }
+
+    button.wide {
+        width: 180px;
+    }
+
 </style>
 
 <div class="header">
@@ -46,8 +52,13 @@
         {#each [SurfaceDisplayMode.Operation, SurfaceDisplayMode.Design, SurfaceDisplayMode.Preview] as mode}
             <button
                     on:click={() => appStore.dispatch({eventAction: 'set-display-mode', detail: { mode }})}
-                    disabled={$appStore.surfaceState.displayMode === mode}
+                    disabled={$appStore.displayMode === mode}
             >{mode}</button>
         {/each}
     </div>
+    {$userProfileStore.userName}
+    <button
+            class="wide"
+            on:click={() => userProfileStore.dispatch({eventAction: 'update-mood', detail: {}})}
+    >Status: {$userProfileStore.selectedMode}</button>
 </div>

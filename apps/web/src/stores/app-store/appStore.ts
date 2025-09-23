@@ -1,21 +1,20 @@
 import {Store, StoreBuilder, YuEventDetail} from '../../system';
-import {createDefaultSurfaceState, SurfaceState} from './surfaceState';
 import {SurfaceDisplayMode} from './surfaceDisplayMode';
 
 export type AppState = {
-    surfaceState: SurfaceState;
+    displayMode: SurfaceDisplayMode;
 };
 
 export type DisplayModelChangedEventDetails = { mode: SurfaceDisplayMode };
 
 export const appStore: Store<AppState> = StoreBuilder.create<AppState>()
-    .withInitialData(
+    .withInitialState(
         {
-            surfaceState: createDefaultSurfaceState()
+            displayMode: SurfaceDisplayMode.Design
         })
     .withEventHandler<DisplayModelChangedEventDetails>(
         'set-display-mode',
         (appState, yuEventDetail: YuEventDetail<DisplayModelChangedEventDetails>) => {
-            appState.surfaceState.displayMode = yuEventDetail.detail.mode;
+            appState.displayMode = yuEventDetail.detail.mode;
         })
     .build();
