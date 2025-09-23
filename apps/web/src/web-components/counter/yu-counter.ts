@@ -1,7 +1,8 @@
-import {css, html, LitElement} from 'lit';
+import {html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {createYuEvent, YuEvent} from '../../system/eventFactory';
+import {createYuEvent, YuEvent} from '../../system/events';
 import {ComponentConfiguration} from '../componentConfiguration';
+import {YuElement} from '../yuElement';
 
 export interface CounterState {
     label: string;
@@ -17,7 +18,7 @@ export interface YuCounterConfiguration extends ComponentConfiguration {
 }
 
 @customElement('yu-counter')
-export class YuCounter extends LitElement {
+export class YuCounter extends YuElement {
 
     @property({attribute: false})
     accessor state: CounterState = {count: 0, label: 'Label Not Set'};
@@ -25,14 +26,11 @@ export class YuCounter extends LitElement {
     @property({ type: Object, attribute: false })
     accessor configuration: YuCounterConfiguration;
 
-    // this wasn't firing as my ts config was incorrect
-    // I had to set this tsconfig prop: `"useDefineForClassFields": false` https://lit.dev/docs/components/properties/#avoiding-issues-with-class-fields
-    // Something to do with how state is bound or set, I need to better read that above link.
-    updated(changed: Map<string, unknown>) {
-        // if (changed.has('state')) {
-        //     // If the store pushed a new state, we can update any derived state here
-        //     this._internalCount = this.state.count;
-        // }
+    configurationUpdated(): void {
+        this.state = {
+            count: this.configuration.count,
+            label: this.configuration.label,
+        };
     }
 
     render() {

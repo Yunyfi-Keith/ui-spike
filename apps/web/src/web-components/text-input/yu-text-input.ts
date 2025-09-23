@@ -1,7 +1,8 @@
-import {LitElement, css, html} from "lit";
+import {css, html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
-import {createYuEvent, YuEvent} from '../../system/eventFactory';
+import {createYuEvent, YuEvent} from '../../system';
 import {ComponentConfiguration} from '../componentConfiguration';
+import {YuElement} from '../yuElement';
 
 export const YuTextInputTextChangedEvent: YuEvent<void> = createYuEvent('YuTextInputTextChangedEvent');
 
@@ -11,7 +12,8 @@ export interface YuTextInputConfiguration extends ComponentConfiguration {
 }
 
 @customElement('yu-text-input')
-export class YuTextInput extends LitElement {
+export class YuTextInput extends YuElement {
+
     @property({attribute: true})
     accessor label: string = null;
 
@@ -20,6 +22,11 @@ export class YuTextInput extends LitElement {
 
     @property({ type: Object, attribute: false })
     accessor configuration: YuTextInputConfiguration;
+
+    configurationUpdated(): void {
+        this.label = this.configuration.label;
+        this.value = this.configuration.value;
+    }
 
     static styles =
         css`

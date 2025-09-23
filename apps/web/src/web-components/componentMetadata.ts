@@ -17,11 +17,3 @@ export const componentsMetadata = allComponents.map(component => ({
         tagName: customElements.getName(component),
     } as ComponentMetadata)
 );
-
-export const componentsMetadataByComponentClassName = componentsMetadata.reduce(
-    (lookup, componentMetadata) => {
-        lookup[componentMetadata.className] = componentMetadata
-        return lookup;
-    },
-    {}
-);

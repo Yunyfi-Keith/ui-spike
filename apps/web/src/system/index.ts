@@ -1,3 +1,3 @@
 // Auto-generated 
-export * from './eventFactory';
+export * from './events';
 export * from './store';

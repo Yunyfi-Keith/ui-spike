@@ -1,24 +1,31 @@
-import {LitElement, css, html} from "lit";
-import {customElement, property, state} from 'lit/decorators.js';
+import {css, html} from "lit";
+import {customElement, property} from 'lit/decorators.js';
 import {createYuEvent, YuEvent} from '../../system';
 import {ComponentConfiguration} from '../componentConfiguration';
+import {YuElement} from '../yuElement';
 
 export const YuExpanderToggledEvent: YuEvent<{ isOpen: boolean }> = createYuEvent('YuExpanderToggledEvent');
 
 export interface YuExpanderConfiguration extends ComponentConfiguration {
+    headerText: string;
     isExpanded: boolean;
 }
 
 @customElement('yu-expander')
-export class YuExpander extends LitElement {
+export class YuExpander extends YuElement {
     @property({attribute: true})
     accessor headerText: string = null;
+
+    @property({ attribute: true })
+    accessor isExpanded: boolean = true;
 
     @property({ type: Object, attribute: false })
     accessor configuration: YuExpanderConfiguration;
 
-    @state()
-    private accessor _open = true;
+    configurationUpdated(): void {
+        this.headerText = this.configuration.headerText;
+        this.isExpanded = this.configuration.isExpanded;
+    }
 
     render() {
         return html`
@@ -27,14 +34,14 @@ export class YuExpander extends LitElement {
                     class="header"
                     role="button"
                     tabindex="0"
-                    aria-expanded=${String(this._open)}
+                    aria-expanded=${String(this.isExpanded)}
                     @click=${this.toggleOpen}
                     @keydown=${this.onKeydown}
                 >
                     <slot name="header">${this.headerText}</slot>
-                    <span class="chevron" aria-hidden="true">${this._open ? '▾' : '▸'}</span>
+                    <span class="chevron" aria-hidden="true">${this.isExpanded ? '▾' : '▸'}</span>
                 </div>
-                <div class="body" ?hidden=${!this._open}>
+                <div class="body" ?hidden=${!this.isExpanded}>
                     <slot name="children"></slot>
                 </div>
             </div>
@@ -42,10 +49,10 @@ export class YuExpander extends LitElement {
     }
 
     private toggleOpen() {
-        this._open = !this._open;
+        this.isExpanded = !this.isExpanded;
         this.requestUpdate();
         this.dispatchEvent(
-            YuExpanderToggledEvent.createAsCustomEvent({isOpen: this._open}, this.id)
+            YuExpanderToggledEvent.createAsCustomEvent({isOpen: this.isExpanded}, this.id)
         );
     }
 

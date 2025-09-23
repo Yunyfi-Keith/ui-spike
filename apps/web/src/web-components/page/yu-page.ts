@@ -1,23 +1,23 @@
-import {LitElement, css, html} from "lit";
+import {html} from "lit";
 import {customElement, property} from 'lit/decorators.js';
 import {ComponentConfiguration} from '../componentConfiguration';
+import {YuElement} from '../yuElement';
 
 export interface YuPageConfiguration extends ComponentConfiguration {
     title: string;
 }
 
-// export interface YuPageConfiguration extends ComponentConfiguration, Pick<YuPage, 'title'>
-// {
-// }
-
 @customElement('yu-page')
-export class YuPage extends LitElement {
-
+export class YuPage extends YuElement {
     @property({attribute: true})
     accessor title: string = null;
 
     @property({ type: Object, attribute: false })
     accessor configuration: YuPageConfiguration;
+
+    configurationUpdated(): void {
+        this.title = this.configuration.title;
+    }
 
     render() {
 

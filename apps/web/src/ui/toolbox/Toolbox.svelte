@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { componentsMetadata } from '../../web-components/componentReference';
-    import {surfaceDesignStore, YuAddComponentEvent} from '../../stores/surface-design-store/surfaceDesignStore';
+    import {componentsMetadata} from '../../web-components';
+    import {surfaceDesignStore, YuAddComponentEvent} from '../../stores';
 </script>
 
 <style>
@@ -9,22 +9,26 @@
         display: grid;
         gap: 12px;
     }
+
     .group {
         border: 1px solid #e8eaf2;
         border-radius: 8px;
         background: #fff;
     }
+
     .group-header {
         padding: 10px 12px;
         border-bottom: 1px solid #eef0f6;
         font-weight: 600;
         font-size: 0.9rem;
     }
+
     .group-body {
         padding: 10px 12px;
         display: grid;
         gap: 8px;
     }
+
     .tool {
         display: flex;
         align-items: center;
@@ -36,9 +40,11 @@
         cursor: grab;
         user-select: none;
     }
+
     .tool:active {
         cursor: grabbing;
     }
+
     .tag {
         margin-left: auto;
         color: #7a8195;

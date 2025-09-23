@@ -11,6 +11,7 @@
     "@illuxiza/nanostores-immer": "^0.1.0",
     "@yunyfi/lit-wc": "*",
     "lit": "^3.3.1",
-    "nanostores": "^1.0.1"
+    "nanostores": "^1.0.1",
+    "uuid": "^13.0.0"
   }
 }

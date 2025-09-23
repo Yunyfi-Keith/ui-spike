@@ -14,7 +14,7 @@
     /* Layout grid covering full viewport */
     .app-layout {
         display: grid;
-        grid-template-columns: 280px 1fr 280px;
+        grid-template-columns: 280px 1fr 550px;
         grid-template-rows: auto 1fr;
         grid-template-areas:
       "header header header"
