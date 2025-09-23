@@ -1,11 +1,6 @@
 <script lang="ts">
-    const basic = [
-        { name: 'Text', tag: 'p' },
-        { name: 'Heading', tag: 'h2' },
-        { name: 'Button', tag: 'button' },
-        { name: 'Image', tag: 'img' },
-        { name: 'Container', tag: 'div' },
-    ];
+    import { componentsMetadata } from '../../web-components/componentReference';
+    import {surfaceDesignStore, YuAddComponentEvent} from '../../stores/surface-design-store/surfaceDesignStore';
 </script>
 
 <style>
@@ -58,10 +53,15 @@
     <div class="group">
         <div class="group-header">Basic</div>
         <div class="group-body">
-            {#each basic as t}
-                <div class="tool" draggable="true" title={`Drag to surface to add a ${t.name}`}>
-                    <span>{t.name}</span>
-                    <span class="tag">{t.tag}</span>
+            {#each componentsMetadata as metadata}
+                <div
+                        class="tool"
+                        draggable="true"
+                        title={`Drag to surface to add a ${metadata.className}`}
+                        on:dragend={() => surfaceDesignStore.dispatch(YuAddComponentEvent.create({componentClassName: metadata.className, tagName: metadata.tagName}))}
+                >
+                    <span>{metadata.className}</span>
+                    <span class="tag">&lt;{metadata.tagName} /&gt;</span>
                 </div>
             {/each}
         </div>

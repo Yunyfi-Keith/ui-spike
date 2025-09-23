@@ -1,5 +1,6 @@
 <script lang="ts">
     import {appStore, SurfaceDisplayMode} from '../../stores/app-store';
+    import {surfaceDesignStore} from '../../stores/surface-design-store';
     import {userProfileStore, YuToggleStatusEvent} from '../../stores/user-profile-store';
 </script>
 
@@ -55,6 +56,10 @@
                     disabled={$appStore.displayMode === mode}
             >{mode}</button>
         {/each}
+        <button
+                on:click={() => surfaceDesignStore.dispatch({eventAction: 'set-display-mode', data: { mode }})}
+                disabled={$appStore.displayMode !== SurfaceDisplayMode.Design}
+        >Savve</button>
     </div>
 <!--
 NOTE: Svelte takes $userProfileStore and subscribes to the store (vis userProfileStore.subscribe()

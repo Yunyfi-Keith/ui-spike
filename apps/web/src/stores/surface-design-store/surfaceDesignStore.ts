@@ -1,26 +1,26 @@
-import {Store, StoreBuilder, YuEventInstance} from '../../system';
-import {YuCounterDecrementEvent, YuCounterIncrementEvent, YuExpanderToggledEvent} from '../../web-components';
+import {createYuEvent, Store, StoreBuilder, YuEvent, YuEventInstance} from '../../system';
 
 export type SurfaceDesignState = {
-    counterState: { count: number, label: string };
+    components: { componentClassName: string, tagName: string }[];
 };
+
+export const YuSavePageEvent: YuEvent<void> = createYuEvent('YuSavePageEvent');
+export const YuAddComponentEvent: YuEvent<{
+    componentClassName: string,
+    tagName: string
+}> = createYuEvent('YuAddComponentEvent');
 
 export const surfaceDesignStore: Store<SurfaceDesignState> = StoreBuilder.create<SurfaceDesignState>()
     .withInitialState(
         {
-            counterState: {
-                count: 2,
-                label: 'Counter Label - Design Mode'
-            },
+            components: []
         }
     )
-    .withEventHandler(YuCounterIncrementEvent,(state, eventData) => {
-        console.log(`Ignoring increment event in design mode`);
+    .withEventHandler(YuAddComponentEvent, (state, eventData) => {
+        console.log(`on_${YuAddComponentEvent.eventAction} - adding - ${eventData.data.tagName}`);
+        state.components.push(eventData.data)
     })
-    .withEventHandler(YuCounterDecrementEvent,(state, eventData) => {
-        console.log(`Ignoring decrement event in design mode`);
-    })
-    .withEventHandler(YuExpanderToggledEvent,(state, eventData) => {
-        console.log(`Ignoring decrement event in design mode`);
+    .withEventHandler(YuSavePageEvent, (state, eventData) => {
+        console.log(`on_${YuSavePageEvent.eventAction}`);
     })
     .build();
