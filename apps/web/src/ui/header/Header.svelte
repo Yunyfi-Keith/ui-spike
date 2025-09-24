@@ -59,7 +59,7 @@
         <button
                 on:click={() => surfaceDesignStore.dispatch({eventAction: 'set-display-mode', data: { mode }})}
                 disabled={$appStore.displayMode !== SurfaceDisplayMode.Design}
-        >Savve</button>
+        >Save</button>
     </div>
 <!--
 NOTE: Svelte takes $userProfileStore and subscribes to the store (vis userProfileStore.subscribe()

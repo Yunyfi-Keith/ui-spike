@@ -1,7 +1,12 @@
+import {enableMapSet} from 'immer';
 import {atom as immerAtom, PreinitializedWritableAtom} from '@illuxiza/nanostores-immer'
 import {isCustomEventOfYuEventDetail, isYuEvent, YuEvent, YuEventInstance} from './events';
 
+enableMapSet();
+
 export interface Store<TState> {
+    name: string
+
     state: TState;
 
     dispatch(customEvent: CustomEvent<YuEventInstance<any>>): void;
@@ -22,10 +27,15 @@ type EventHandler<TState> = {
 
 export class StoreBuilder<TState> {
     #initialState: TState;
+    #name: string
     #eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>> = new Map();
 
-    public static create<TState>() {
-        return new StoreBuilder<TState>();
+    public static create<TState>(name: string) {
+        return new StoreBuilder<TState>(name);
+    }
+
+    private constructor(name: string) {
+        this.#name = name;
     }
 
     withInitialState(initialState: TState): this {
@@ -45,17 +55,23 @@ export class StoreBuilder<TState> {
     }
 
     build(): DefaultStore<TState> {
-        return new DefaultStore<TState>(this.#initialState, this.#eventHandlerByEventAction);
+        return new DefaultStore<TState>(this.#name, this.#initialState, this.#eventHandlerByEventAction);
     }
 }
 
 export class DefaultStore<TState> implements Store<TState> {
     #atomStore: PreinitializedWritableAtom<TState> & object; // typings as per the nanostores library
     #eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>> = new Map();
+    #name: string
 
-    constructor(initialState: TState, eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>>) {
+    constructor(name: string, initialState: TState, eventHandlerByEventAction: Map<string, StoreEventHandler<TState, any>>) {
+        this.#name = name;
         this.#atomStore = immerAtom<TState>(initialState);
         this.#eventHandlerByEventAction = eventHandlerByEventAction;
+    }
+
+    get name() {
+        return this.#name;
     }
 
     dispatch(event: CustomEvent<YuEventInstance<any>>): void;
@@ -74,10 +90,11 @@ export class DefaultStore<TState> implements Store<TState> {
             throw new Error(errorMessage)
         }
         if (handler) {
-            // `mut` handles mutation and nanostores handles publishing of changes
+            // `mut` handles mutation via immer and nanostores handles publishing of changes
             this.#atomStore.mut(draft => {
                 handler(draft, yuEventDetail)
-            })
+            });
+            console.log(`Store Updated: `, this.#atomStore.get());
         }
     };
 

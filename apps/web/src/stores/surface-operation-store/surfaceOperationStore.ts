@@ -1,11 +1,11 @@
-import {Store, StoreBuilder, YuEventInstance} from '../../system';
-import {YuCounterDecrementEvent, YuCounterIncrementEvent} from '../../web-components';
+import {Store, StoreBuilder} from '../../system';
+import {YuCounterDecrementEvent, YuCounterIncrementEvent} from '../../web-components/';
 
 export type SurfaceOperationState = {
     counterState: { count: number, label: string };
 };
 
-export const surfaceOperationStore: Store<SurfaceOperationState> = StoreBuilder.create<SurfaceOperationState>()
+export const surfaceOperationStore: Store<SurfaceOperationState> = StoreBuilder.create<SurfaceOperationState>("SurfaceOperationStore")
     .withInitialState(
         {
             counterState: {

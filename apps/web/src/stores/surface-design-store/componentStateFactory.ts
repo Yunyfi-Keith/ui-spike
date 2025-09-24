@@ -2,6 +2,7 @@ import {
     ComponentConfiguration,
     YuButtonConfiguration,
     YuCounterConfiguration,
+    YuExpanderConfiguration,
     YuTextInputConfiguration
 } from '../../web-components';
 
@@ -22,5 +23,10 @@ export const getDefaultComponentState: (tagName: string) => ComponentConfigurati
             return {
                 text: 'Click ME!',
             } as YuButtonConfiguration
+        case 'yu-expander':
+            return {
+                headerText: 'Expander Header',
+                isExpanded: true,
+            } as YuExpanderConfiguration
     }
 };

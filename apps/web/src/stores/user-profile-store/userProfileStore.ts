@@ -8,7 +8,7 @@ export type UserProfileState = {
 
 export const YuToggleStatusEvent: YuEvent<void> = createYuEvent('YuToggleStatusEvent');
 
-export const userProfileStore: Store<UserProfileState> = StoreBuilder.create<UserProfileState>()
+export const userProfileStore: Store<UserProfileState> = StoreBuilder.create<UserProfileState>("UserProfileStore")
     .withInitialState(
         {
             userName: "Bob Jane",

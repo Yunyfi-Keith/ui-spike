@@ -7,7 +7,7 @@ export type AppState = {
 
 export type DisplayModelChangedEventDetails = { mode: SurfaceDisplayMode };
 
-export const appStore: Store<AppState> = StoreBuilder.create<AppState>()
+export const appStore: Store<AppState> = StoreBuilder.create<AppState>("AppStore")
     .withInitialState(
         {
             displayMode: SurfaceDisplayMode.Design

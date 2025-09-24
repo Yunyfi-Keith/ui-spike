@@ -16,12 +16,15 @@ export type SurfaceDesignState = {
 };
 
 export const YuSavePageEvent: YuEvent<void> = createYuEvent('YuSavePageEvent');
+
 export const YuAddComponentEvent: YuEvent<{
     componentClassName: string,
     tagName: string
 }> = createYuEvent('YuAddComponentEvent');
 
-export const surfaceDesignStore: Store<SurfaceDesignState> = StoreBuilder.create<SurfaceDesignState>()
+export const ComponentConfigUpdated: YuEvent<ComponentDesignConfig> = createYuEvent('ComponentConfigUpdated');
+
+export const surfaceDesignStore: Store<SurfaceDesignState> = StoreBuilder.create<SurfaceDesignState>("SurfaceDesignStore")
     .withInitialState(
         <SurfaceDesignState>{
             components: [],
@@ -33,11 +36,12 @@ export const surfaceDesignStore: Store<SurfaceDesignState> = StoreBuilder.create
 
         let defaultComponentState = getDefaultComponentState(eventData.data.tagName);
 
-        state.components.push({
+        let component = {
             ...eventData.data,
             componentId: uuid.v4(),
             configuration: defaultComponentState
-        })
+        };
+        state.components.push(component)
     })
     .withEventHandler(YuSavePageEvent, (state, eventData) => {
         console.log(`on_${YuSavePageEvent.eventAction}`);
@@ -45,5 +49,10 @@ export const surfaceDesignStore: Store<SurfaceDesignState> = StoreBuilder.create
     .withEventHandler(YuDesignerElementSelectedEvent, (state, eventData) => {
         console.log(`on_${YuDesignerElementSelectedEvent.eventAction}`);
         state.selectedComponent = state.components.find(c => c.componentId === eventData.data.componentId);
+    })
+    .withEventHandler(ComponentConfigUpdated, (state, eventData) => {
+        console.log(`on_${ComponentConfigUpdated.eventAction}. Event data:`, eventData.data);
+        let componentIndex = state.components.findIndex(c => c.componentId === eventData.data.componentId);
+        state.components[componentIndex].configuration = eventData.data.configuration;
     })
     .build();
